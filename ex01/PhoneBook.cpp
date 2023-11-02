@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 19:02:01 by hemottu           #+#    #+#             */
-/*   Updated: 2023/10/30 13:17:46 by hemottu          ###   ########.fr       */
+/*   Updated: 2023/11/02 19:09:31 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,33 @@ PhoneBook::~PhoneBook()
 	
 }
  
-void	PhoneBook::add_contact(int i)
+std::string	PhoneBook::add_contact(int i)
 {
 	std::string entry;
 	
 	entry = fill_entry("Enter first name : ");
+	if (entry == "error")
+		return "error";
 	contacts[i].set_firstname(entry);
 	entry = fill_entry("Enter last name : ");
+	if (entry == "error")
+		return "error";
 	contacts[i].set_lastname(entry);
 	entry = fill_entry("Enter nickname : ");
+	if (entry == "error")
+		return "error";
 	contacts[i].set_nickname(entry);
 	entry = fill_entry("Enter phone number : ");
+	if (entry == "error")
+		return "error";
 	contacts[i].set_phonenumber(entry);
 	entry = fill_entry("Enter darkest secret : ");
+	if (entry == "error")
+		return "error";
 	contacts[i].set_secret(entry);
 
 	std::cout << "\033[33m" << "Contact added to your phonebook !" << "\033[0m" << std::endl;
-	return;
+	return "ok";
 }
 
 void 	PhoneBook::print_contact_info(int i)
@@ -86,7 +96,7 @@ void	PhoneBook::print_contact_list()
 	std::cout << "+---------+----------+----------+----------+" << "\033[0m" << std::endl;
 }
 
-void	PhoneBook::search_n_print()
+std::string	PhoneBook::search_n_print()
 {
 	std::string entry;
 	
@@ -95,17 +105,20 @@ void	PhoneBook::search_n_print()
 	else 
 	{
 		print_contact_list();
-		do {std::cout << "Enter index for details : ";
-		getline(std::cin, entry);} while(not entry[0]);
+		entry = fill_entry("Enter index for details : ");
+		if (entry == "error")
+			return "error";
 		while (check_input(entry) == 0)
 		{
 			std::cout << "\033[33m" << "Insert number from 1 to 8." << "\033[0m" << std::endl;
-			do {std::cout << "Enter index for details : ";
-			getline(std::cin, entry);} while(not entry[0]);
+			entry = fill_entry("Enter index for details : ");
+			if (entry == "error")
+				return "error";
 		}
 		if ((contacts[(atoi_8(entry)) - 1].get_firstname()).empty())
 			std::cout << "\033[33m" << "Contact not found." << "\033[0m" << std::endl;
 		else 
 			print_contact_info(atoi_8(entry) - 1);
 	}
+	return "ok";
 }

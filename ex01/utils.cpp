@@ -6,13 +6,14 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 19:00:37 by hemottu           #+#    #+#             */
-/*   Updated: 2023/10/30 13:12:58 by hemottu          ###   ########.fr       */
+/*   Updated: 2023/11/02 19:13:32 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
 #include <string>
 #include <iostream>
+#include <cstdlib>
 
 std::string truncate(std::string str)
 {
@@ -60,9 +61,19 @@ std::string	fill_entry(std::string str)
 	
 	do {
 		std::cout << str;
-		getline(std::cin, entry); 
+		getline(std::cin, entry);
+		if (std::cin.fail())
+		{
+			std::cin.ignore();
+			return ("error");
+		}
 		} while(not entry[0]);
 	
+	if (entry == "add" || entry == "search" || entry == "exit")
+	{
+		for(size_t i = 0; i < entry.size(); i++)
+			entry[i] = toupper(entry[i]);
+	}
 	return entry;
 }
 
